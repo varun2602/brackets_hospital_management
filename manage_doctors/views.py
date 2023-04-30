@@ -120,7 +120,7 @@ def delete_data(request):
         username = python_data.get('username', None)
         if username is not None:
             try:
-                patient = models.Patients.objects.get(username = username)
+                patient = models.Patients.objects.filter(username = username)
                 patient.delete()
                 data = {'message':'Deleted successfully'}
                 json_data = json.dumps(data)
@@ -132,6 +132,23 @@ def delete_data(request):
         data = {'message':'Invalid request'}
         json_data = json.dumps(data)
         return HttpResponse(json_data, content_type = 'application/json')
+def get_data(request):
+    if request.method == 'GET':
+        json_data = request.body
+        stream = io.BytesIO(json_data)
+        python_data = JSONParser().parse(stream)
+        patient = python_data.get('username', None)
+        if patient is not None:
+            patient_obj = models.Patients.objects.filter(username = patient)
+            serialized = serializers.PatientSerializer(patient_obj, many = True)
+            json_data = JSONRenderer().render(serialized.data)
+            return HttpResponse(json_data, content_type =  'application/json')
+        else:
+            all_obj = models.Patients.objects.all()
+            serialized = serializers.PatientSerializer(all_obj, many = True)
+            json_data = JSONRenderer().render(serialized.data)
+            return HttpResponse(json_data, content_type = 'application/json')
+
 # DOCTOR CRUD 
 @csrf_exempt
 def get_doctor(request):

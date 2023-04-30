@@ -14,10 +14,14 @@ def create_data():
     response = r.json()
     print(response)
 url2 = 'http://127.0.0.1:8000/doctors/delete_data'
-def delete_data():
+def delete_data(username = None):
     data = {
-        'username':'testusername'
+        'username':None
     }
+    if username is not None:
+        data = {
+            'username':username
+        }
     json_data = json.dumps(data)
     r = requests.delete(url = url2, data = json_data)
     response = r.json()
@@ -98,9 +102,24 @@ def get_bill(patient_name = None):
     response = r.json()
     print(response)
 
+def get_data(username = None):
+    data = {
+        'username':None
+    }
+    if username is not None:
+        data = {
+            'username':username
+        }
+    json_data = json.dumps(data)
+    r = requests.get(url = 'http://127.0.0.1:8000/doctors/get_data', data = json_data)
+    response = r.json()
+    print(response)
+
 # get_confirmed_appointments('varun1')
 # create_data()
 # create_bill()
-get_bill()
+# get_bill()
+get_data()
+# delete_data('mrunal')
 
     

@@ -22,5 +22,6 @@ urlpatterns = [
     path('delete_confirmed_appointments', views.delete_confirmed_appointments, name = 'delete_confirmed_appoitnments'),
     path('get_confirmed_appointments_doc', views.get_confirmed_appointments_doc, name = 'get_confirmed_appointments_doc'),
     path('create_bill', views.create_bill, name = 'create_bill'),
-    path('get_bill', views.get_bill,  name = 'get_bill')
+    path('get_bill', views.get_bill,  name = 'get_bill'),
+    path('get_data', views.get_data, name = 'get_data')
 ]
